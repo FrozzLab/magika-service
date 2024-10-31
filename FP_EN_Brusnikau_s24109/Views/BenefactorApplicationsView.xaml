@@ -1,0 +1,421 @@
+﻿<misc:MagikaUserControl x:Class="FP_EN_Brusnikau_s24109.Views.BenefactorApplicationsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:misc="clr-namespace:FP_EN_Brusnikau_s24109.Classes.Miscellaneous"
+             xmlns:p_module="clr-namespace:FP_EN_Brusnikau_s24109.Classes.Models.Partnership_Module"
+             xmlns:c_module="clr-namespace:FP_EN_Brusnikau_s24109.Classes.Models.Core_Module"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1300">
+
+    <misc:MagikaUserControl.Resources>
+        
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FF8D70"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#A21F16"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FE6A48"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#A21F16"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FE5934"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#A21F16"/>
+
+        <Style x:Key="ApplicantButton" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        
+    </misc:MagikaUserControl.Resources>
+
+    <Grid Background="#FFDED6">
+        <Border
+            Width="1284"
+            Height="50"
+            BorderBrush="#A21F16"
+            BorderThickness="3"
+            Background="#FF8D70"
+            VerticalAlignment="Top"
+        >
+            <Grid Width="1300">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Width="Auto">
+                    <Button 
+                        Style="{DynamicResource ApplicantButton}"
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" 
+                        Height="50" 
+                        Width="230"
+                        Content="Application View" 
+                        FontFamily="Yu Gothic UI" 
+                        Foreground="White" 
+                        FontSize="24"
+                    />
+                </StackPanel>
+                <Button 
+                        Style="{DynamicResource ApplicantButton}"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        Height="50" 
+                        Width="115"
+                        Content="Back"
+                        Margin="-3,0,0,0"
+                        FontFamily="Yu Gothic UI" 
+                        Foreground="White" 
+                        FontSize="24"
+                        Command="{Binding DataContext.ReturnToLogInCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding}"
+                />
+            </Grid>
+        </Border>
+        <Label 
+            Content="Magika" 
+            HorizontalAlignment="Left" 
+            Margin="10,0,0,5" 
+            VerticalAlignment="Bottom" 
+            FontSize="14" 
+            FontFamily="Yu Gothic UI" 
+            HorizontalContentAlignment="Center" 
+            FontStyle="Italic" 
+            Foreground="#A21F16"
+        />
+        <Label 
+            Content="Magical Software for Magical People" 
+            HorizontalAlignment="Right" 
+            Margin="0,0,10,5" 
+            VerticalAlignment="Bottom" 
+            FontFamily="Yu Gothic UI" 
+            FontSize="14" 
+            FontStyle="Italic" 
+            Foreground="#A21F16" 
+            FontWeight="Bold"
+        />
+        <Label 
+            Content="Applicants" 
+            HorizontalAlignment="Left"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Width="225"
+            Height="60"
+            Margin="65,90,0,0" 
+            BorderBrush="#C5261B"
+            BorderThickness="3"
+            Background="#FF7C5C"
+            VerticalAlignment="Top" 
+            FontFamily="Yu Gothic UI"
+            Foreground="#FFFFFF" 
+            FontSize="26"
+        />
+        <ListBox 
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            HorizontalAlignment="Left"
+            HorizontalContentAlignment="Center"
+            Height="550"
+            Width="275"
+            Margin="40,80,0,0"
+            Padding="2,6,2,2"
+            BorderBrush="#C5261B"
+            BorderThickness="3"
+            Background="#FFBEAD"
+            ItemsSource="{Binding Applicants}" d:ItemsSource="{d:SampleData ItemCount=10}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="IsSelected" Value="{Binding Content.IsSelected, Mode=TwoWay, RelativeSource={RelativeSource Self}}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <ContentPresenter/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type c_module:Mage}">
+                    <Button 
+                        Style="{DynamicResource ApplicantButton}"
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" 
+                        Height="55" 
+                        Width="230" 
+                        Padding="0,7,0,7"
+                        Margin="0,3,3,4"
+                        Command="{Binding DataContext.SelectApplicantCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding}">
+
+                        <Viewbox
+                            Width="210">
+                            <TextBlock 
+                                Text="{Binding Path=Name}" 
+                                FontFamily="Yu Gothic UI" 
+                                Foreground="White" 
+                                FontSize="18"/>
+                        </Viewbox>
+                    </Button>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Label 
+            Content="Applications" 
+            HorizontalAlignment="Left"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Width="225"
+            Height="60"
+            Margin="355,90,0,0" 
+            BorderBrush="#C5261B"
+            BorderThickness="3"
+            Background="#FF7C5C"
+            VerticalAlignment="Top" 
+            FontFamily="Yu Gothic UI"
+            Foreground="#FFFFFF" 
+            FontSize="26"
+            Visibility="{Binding DataContext.IsApplicantSelected, 
+               RelativeSource={RelativeSource AncestorType=UserControl},
+               Converter={StaticResource BooleanToVisibilityConverter}}"
+        />
+        <ListBox 
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            HorizontalAlignment="Left"
+            HorizontalContentAlignment="Center"
+            Height="550"
+            Width="275"
+            Margin="330,80,0,0"
+            Padding="2,6,2,2"
+            BorderBrush="#C5261B"
+            BorderThickness="3"
+            Background="#FFBEAD"
+            Visibility="{Binding DataContext.IsApplicantSelected, 
+               RelativeSource={RelativeSource AncestorType=UserControl},
+               Converter={StaticResource BooleanToVisibilityConverter}}"
+            ItemsSource="{Binding Applications}" d:ItemsSource="{d:SampleData ItemCount=10}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="IsSelected" Value="{Binding Content.IsSelected, Mode=TwoWay, RelativeSource={RelativeSource Self}}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <ContentPresenter/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type p_module:Application}">
+                    <Button 
+                        Style="{DynamicResource ApplicantButton}"
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" 
+                        Height="55" 
+                        Width="230" 
+                        Padding="0,7,0,7"
+                        Margin="0,3,3,4"
+                        Command="{Binding DataContext.SelectApplicationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding}">
+
+                        <Viewbox
+                            Width="210">
+                            <TextBlock 
+                                Text="{Binding Path=Title}" 
+                                FontFamily="Yu Gothic UI" 
+                                Foreground="White" 
+                                FontSize="18"/>
+                        </Viewbox>
+                    </Button>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Border
+            x:Name="ApplicationView"
+            BorderBrush="#C5261B"
+            BorderThickness="3"
+            Margin="635,115,40,100"
+            Visibility="{Binding DataContext.IsApplicationSelected, 
+               RelativeSource={RelativeSource AncestorType=UserControl},
+               Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid Background="#FF8D70">
+                <StackPanel>
+                    <TextBlock 
+                        Text="{Binding DataContext.ApplicationStatus, 
+                            RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                        FontFamily="Yu Gothic UI"
+                        Foreground="#FFFFFF"
+                        HorizontalAlignment="Center"
+                        FontSize="26"
+                        Padding="5,10,5,5"
+                    />
+                    <Viewbox Margin="20,0,20,0">
+                        <TextBlock 
+                        TextWrapping="Wrap"    
+                        Text="{Binding DataContext.SelectedApplication.Title, 
+                            RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                        FontFamily="Yu Gothic UI"
+                        Foreground="#FFFFFF" 
+                    />
+                    </Viewbox>
+                    <TextBlock 
+                        Text="{Binding DataContext.ApplicationGoal, 
+                            RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                        FontFamily="Yu Gothic UI"
+                        Foreground="#FFFFFF"
+                        HorizontalAlignment="Center"
+                        FontSize="18"
+                        Padding="5"
+                    />
+                    <TextBox
+                        Width="525"
+                        Height="210"
+                        Text="{Binding DataContext.SelectedApplication.Description, 
+                               RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        FontFamily="Yu Gothic UI"
+                        Foreground="#FFFFFF"
+                        FontSize="16"
+                        Background="Transparent"
+                        IsReadOnly="True"
+                        TextWrapping="Wrap"
+                        TextAlignment="Justify"
+                        VerticalScrollBarVisibility="Auto"
+                        HorizontalScrollBarVisibility="Auto"
+                        Padding="5,0,5,5" 
+                        BorderThickness="0"
+                    />
+                </StackPanel>
+                <Border
+                    BorderBrush="#C5261B"
+                    BorderThickness="3"
+                    Background="#FF7C5C"
+                    Width="425"
+                    Margin="0,350,0,60"
+                >
+                    <TextBox
+                        Text="{Binding DataContext.ApplicationOffers, 
+                               RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        Width="425"
+                        FontFamily="Yu Gothic UI"
+                        Foreground="#FFFFFF"
+                        FontSize="18"
+                        Background="Transparent"
+                        IsReadOnly="True"
+                        TextWrapping="Wrap"
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        VerticalScrollBarVisibility="Auto"
+                        HorizontalScrollBarVisibility="Auto"
+                        Padding="5" 
+                        BorderThickness="0"
+                    />
+                </Border>
+                <StackPanel
+                    Margin="0,480,0,0"
+                    HorizontalAlignment="Center" 
+                    Orientation="Horizontal"
+                    Visibility="{Binding DataContext.IsApplicationOngoing, 
+                        RelativeSource={RelativeSource AncestorType=UserControl},
+                        Converter={StaticResource BooleanToVisibilityConverter}}"
+                    >
+                    <Button 
+                        Style="{DynamicResource ApplicantButton}"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        Height="45" 
+                        Width="115"
+                        Content="Cancel"
+                        FontFamily="Yu Gothic UI" 
+                        Foreground="White" 
+                        FontSize="20"
+                        Command="{Binding DataContext.CancelNegotiationsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding}"
+                    />
+                    <xctk:IntegerUpDown 
+                        Value="{Binding DataContext.NewOfferValue, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        Margin="25,0,0,0"
+                        Width="95"
+                        Height="35"
+                        BorderBrush="#C5261B"
+                        BorderThickness="2"
+                        Background="#FF7C5C"
+                        FontFamily="Yu Gothic UI" 
+                        Foreground="White" 
+                        FontSize="16"
+                        Maximum="10000"
+                        Minimum="0"
+                        Watermark="100"
+                    />
+                    <Button 
+                        Style="{DynamicResource ApplicantButton}"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        Height="35" 
+                        Width="95"
+                        Content="Offer"
+                        Margin="5,0,25,0"
+                        FontFamily="Yu Gothic UI" 
+                        Foreground="White" 
+                        FontSize="18"
+                        BorderThickness="2"
+                        Command="{Binding DataContext.MakeOfferCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding}"
+                    />
+                    <Button 
+                        Style="{DynamicResource ApplicantButton}"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        Height="45" 
+                        Width="115"
+                        Content="Conclude"
+                        FontFamily="Yu Gothic UI" 
+                        Foreground="White" 
+                        FontSize="20"
+                        Command="{Binding DataContext.ConcludeNegotiationsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding}"
+                    />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+
+</misc:MagikaUserControl>
